@@ -58,6 +58,7 @@ router.post('/', (req, res, next) => {
     
     var order = new Order({
       productsWithQuantity: productsWithQuantity,
+      shippingAddress: req.body.shippingAddress,
       buyer: req.user._id
     });
     return order.save((err, newOrder) => {

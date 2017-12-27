@@ -1,5 +1,7 @@
 import { ProductSchema } from './Product';
 
+import { AddressSchema } from './User';
+
 const mongoose = require('mongoose');
 
 const ProductWithQuantitySchema = new mongoose.Schema({
@@ -15,6 +17,10 @@ export const OrderSchema = new mongoose.Schema({
   buyer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true
+  },
+  shippingAddress: {
+    type: AddressSchema,
     required: true
   },
   isActive: {

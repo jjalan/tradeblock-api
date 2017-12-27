@@ -72,6 +72,7 @@ app.use((req, res, next) => {
   });
 });
 
+app.use('/users', require('./controllers/users.controller.js'));
 app.use('/products', require('./controllers/products.controller.js'));
 app.use('/orders', require('./controllers/orders.controller.js'));
 

@@ -4,6 +4,41 @@ const bcrypt = require('bcrypt');
 
 const SALT_WORK_FACTOR = 10;
 
+export const AddressSchema = new mongoose.Schema({
+  address1: {
+    type: String,
+    trim: true
+  },
+  address2: {
+    type: String,
+    trim: true
+  },
+  city: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  state: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  country: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  zipcode: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
+}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
+
 export const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -25,6 +60,7 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  shippingAddresses: [AddressSchema],
   isActive: {
     type: Boolean,
     default: true

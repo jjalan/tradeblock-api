@@ -18,6 +18,16 @@ router.get('/', (req, res, next) => {
   });
 });
 
+router.get('/latest', (req, res, next) => {
+  Product.find({seller: { $ne: req.user._id }, isActive: true}).sort({createdAt: 'desc'}).limit(20).exec((err, products) => {
+    if (err) {
+      return next(err);
+    }
+    
+    return res.status(200).send(products);
+  });
+});
+
 router.post('/', (req, res, next) => {
   var product = new Product({
     name: req.body.name,
