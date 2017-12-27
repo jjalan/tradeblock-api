@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const SALT_WORK_FACTOR = 10;
 
-const UserSchema = new mongoose.Schema({
+export const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
     trim: true
@@ -24,6 +24,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
@@ -66,4 +70,4 @@ UserSchema.methods.comparePassword = function comparePassword(userPassword, cb) 
 
 UserSchema.index({ email: 1 }, {unique: true, name: 'user_email_index'});
 
-module.exports = mongoose.model('User', UserSchema);
+export const User = mongoose.model('User', UserSchema);

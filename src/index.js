@@ -1,3 +1,5 @@
+import { User } from './models/User';
+
 const express = require('express');
 
 const i18n = require('i18n');
@@ -14,6 +16,12 @@ const mongoose = require('mongoose');
 
 const bodyParser = require('body-parser');
 
+const HttpError = require('./models/HttpError.js');
+
+const jwt = require('jsonwebtoken');
+
+const JWT_KEY = process.env.JWT_KEY || 'tradeblock';
+
 // See: https://github.com/mashpie/i18n-node for more options
 i18n.configure({
   locales: ['en'],
@@ -27,8 +35,45 @@ app.use(i18n.init);
 app.use(bodyParser.json());
 app.use(compression());
 app.use(require('express-status-monitor')());
+app.use((req, res, next) => {
+  req.JWT_KEY = JWT_KEY;
+  return next();
+})
 
 app.use('/auth', require('./controllers/auth.controller.js'));
+
+app.use((req, res, next) => {
+  let authorizationHeader = req.headers['authorization'];
+  if (!authorizationHeader) {
+    return next(new HttpError(400, res.__('INVALID_AUTH_TOKEN')));
+  }
+  
+  let authorizationHeaderArr = authorizationHeader.split(' ');
+  if (authorizationHeaderArr.length !== 2) {
+    return next(new HttpError(400, res.__('INVALID_AUTH_TOKEN')));
+  }
+  
+  let decodedToken = jwt.verify(authorizationHeaderArr[1], req.JWT_KEY);
+  if (!decodedToken) {
+    return next(new HttpError(400, res.__('INVALID_AUTH_TOKEN')));
+  }
+  
+  return User.findById(decodedToken.id, (findUserErr, user) => {
+    if (findUserErr) {
+      return next(findUserErr);
+    }
+    
+    if (!user) {
+      return next(new HttpError(400, res.__('INVALID_AUTH_TOKEN')));
+    }
+    
+    req.user = user;
+    return next();
+  });
+});
+
+app.use('/products', require('./controllers/products.controller.js'));
+app.use('/orders', require('./controllers/orders.controller.js'));
 
 /*eslint-disable no-unused-vars */
 app.use(function clientErrorHandler(err, req, res, next) {

@@ -1,14 +1,12 @@
+import { User } from '../models/User';
+
 const express = require('express');
 
 const router = express.Router();
 
-const User = require('../models/User.js');
-
 const jwt = require('jsonwebtoken');
 
 const HttpError = require('../models/HttpError.js');
-
-const JWT_KEY = process.env.JWT_KEY || 'tradeblock';
 
 router.post('/register', (req, res, next) => {
   let user = new User(req.body);
@@ -23,7 +21,7 @@ router.post('/register', (req, res, next) => {
       return next(err);
     }
     
-    return res.status(201).send({id: newUser._id});
+    return res.status(201).send(newUser);
   });
 });
 
@@ -46,7 +44,7 @@ router.post('/login', (req, res, next) => {
         return next(new HttpError(400, res.__('PASSWORD_MISMATCH')));
       }
       
-      return res.status(200).send({token: jwt.sign({ id: user._id }, JWT_KEY)});
+      return res.status(200).send({token: jwt.sign({ id: user._id }, req.JWT_KEY)});
     });
   });
 });

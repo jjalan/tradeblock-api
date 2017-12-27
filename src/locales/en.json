@@ -3,5 +3,12 @@
   "INVALID_EMAIL": "Please specify a valid email address",
   "DUPLICATE_EMAIL": "This email address is already registered",
   "USER_NOT_FOUND": "Please specify a valid email or password",
-  "PASSWORD_MISMATCH": "Please specify a valid email or password"
+  "PASSWORD_MISMATCH": "Please specify a valid email or password",
+  "INVALID_AUTH_TOKEN": "Please specify a valid authorization token",
+  "INVALID_PRODUCT_NAME": "Please specify a valid product name",
+  "INVALID_PRODUCT_PRICE": "Please specify a valid product price in ETH",
+  "INVALID_PRODUCT_ID": "Please specify a valid product id",
+  "PRODUCT_NOT_FOUND_BY_ID": "No product found for the given id",
+  "INVALID_ORDER_ID": "Please specify a valid order id",
+  "ORDER_WITH_EMPTY_BASKET": "Please specify atleast one product to buy"
 }
