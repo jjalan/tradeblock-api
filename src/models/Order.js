@@ -2,8 +2,16 @@ import { ProductSchema } from './Product';
 
 const mongoose = require('mongoose');
 
+const ProductWithQuantitySchema = new mongoose.Schema({
+  product: ProductSchema,
+  quantity: {
+    type: Number,
+    required: true
+  }
+}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
+
 export const OrderSchema = new mongoose.Schema({
-  products: [ProductSchema],
+  productsWithQuantity: [ProductWithQuantitySchema],
   buyer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

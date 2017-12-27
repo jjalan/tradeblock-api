@@ -22,10 +22,12 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   let productIds = [];
+  let productIdQuantityMap = {};
   try {
     if (req.body.products && req.body.products.length > 0) {
       for (let i = 0 ; i < req.body.products.length; i += 1) {
-        productIds.push(mongoose.Types.ObjectId(req.body.products[i]));
+        productIds.push(mongoose.Types.ObjectId(req.body.products[i].id));
+        productIdQuantityMap[req.body.products[i].id] = req.body.products[i].quantity;
       }
     }
   } catch (e) {
@@ -42,8 +44,20 @@ router.post('/', (req, res, next) => {
       return next(productSearchErr);
     }
     
+    if (!products || products.length === 0) {
+      return next(new HttpError(400, res.__('ORDER_WITH_EMPTY_BASKET')));
+    }
+    
+    var productsWithQuantity = [];
+    for (let i = 0; i < products.length ; i += 1) {
+      productsWithQuantity.push({
+        product: products[i],
+        quantity: productIdQuantityMap[products[i]._id]
+      })
+    }
+    
     var order = new Order({
-      products: products,
+      productsWithQuantity: productsWithQuantity,
       buyer: req.user._id
     });
     return order.save((err, newOrder) => {
