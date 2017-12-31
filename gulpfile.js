@@ -21,7 +21,7 @@ gulp.task('copy_locales', function () {
 });
 gulp.task('lint', function () {
   var stream = gulp.src([SRC_DIC+'/**/*.js'])
-  .pipe(eslint())
+  .pipe(eslint({fix:true}))
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
   return stream;
