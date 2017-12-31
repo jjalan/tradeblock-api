@@ -10,5 +10,8 @@
   "INVALID_PRODUCT_ID": "Please specify a valid product id",
   "PRODUCT_NOT_FOUND_BY_ID": "No product found for the given id",
   "INVALID_ORDER_ID": "Please specify a valid order id",
-  "ORDER_WITH_EMPTY_BASKET": "Please specify atleast one product to buy"
+  "ORDER_WITH_EMPTY_BASKET": "Please specify atleast one product to buy",
+  "ORDER_NOT_FOUND_BY_ID": "No order found for the given id",
+  "ORDER_BUYER_MISMATCH": "Current user is not the buyer of the order",
+  "SELLER_NOT_FOUND_BY_ID": "No seller found for the given id",
 }

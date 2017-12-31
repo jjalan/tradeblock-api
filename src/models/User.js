@@ -1,3 +1,5 @@
+import web3 from '../web3';
+
 const mongoose = require('mongoose');
 
 const bcrypt = require('bcrypt');
@@ -42,7 +44,8 @@ export const AddressSchema = new mongoose.Schema({
 export const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    trim: true
+    trim: true,
+    required: true
   },
   lastName: {
     type: String,
@@ -59,6 +62,16 @@ export const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  walletAddress: {
+    type: String,
+    trim: true,
+    required: true,
+    validate: {
+      validator: function(v) {
+        return web3.isAddress(v);
+      }
+    },
   },
   shippingAddresses: [AddressSchema],
   isActive: {
