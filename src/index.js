@@ -77,9 +77,9 @@ app.use('/products', require('./controllers/products.controller.js'));
 app.use('/orders', require('./controllers/orders.controller.js'));
 
 /*eslint-disable no-unused-vars */
-/*app.use(function clientErrorHandler(err, req, res, next) {
+app.use(function clientErrorHandler(err, req, res, next) {
   res.status(err.statusCode || 500).json(err);
-});*/
+});
 
 mongoose.connect(process.env.DB_URI || 'mongodb://localhost/tradeblock', {
   useMongoClient: true,
