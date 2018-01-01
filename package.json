@@ -1,6 +1,6 @@
 {
   "name": "tradeblock",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "lint": "gulp lint",
@@ -26,9 +26,7 @@
     "underscore": "^1.8.3",
     "util": "^0.10.3",
     "web3": "^0.19.0",
-    "winston": "^3.0.0-rc1"
-  },
-  "devDependencies": {
+    "winston": "^3.0.0-rc1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
