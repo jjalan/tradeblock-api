@@ -57,11 +57,11 @@ function getTradeContractFactorySignedTransaction (
 ) {
   const payload = new SolidityFunction('', _.find(CONTRACT_FACTORY_ABI, { name: 'create' }), '').toPayload([buyerAddress, sellerAddresses, sellersDueAmountBeforeCommissionInWei, sellersDueAmountAfterCommissionInWei]).data;
   
-  const gasLimit = web3.eth.estimateGas({
+  const gasLimit = Math.min(web3.eth.estimateGas({
     from:ETH_ACCOUNT_ADDRESS,
     to: CONTRACT_FACTORY_ADDRESS,
     data: payload
-  });
+  }), web3.eth.getBlock("latest").gasLimit);
   
   const tx = new Tx({
     nonce: web3.toHex(web3.eth.getTransactionCount(ETH_ACCOUNT_ADDRESS)),
@@ -117,11 +117,11 @@ function createTradeContract(
 function getPaySellerSignedTransction(tradeContractAddress, sellerWalletAddress) {
   const payload = new SolidityFunction('', _.find(TRADE_CONTRACT_ABI, { name: 'paySeller' }), '').toPayload([sellerWalletAddress]).data;
   
-  const gasLimit = web3.eth.estimateGas({
+  const gasLimit = Math.min(web3.eth.estimateGas({
     from: ETH_ACCOUNT_ADDRESS,
     to: tradeContractAddress,
     data: payload
-  });
+  }), web3.eth.getBlock("latest").gasLimit);
   
   const tx = new Tx({
     nonce: web3.toHex(web3.eth.getTransactionCount(ETH_ACCOUNT_ADDRESS)),
